@@ -13,7 +13,7 @@ const addBookHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  const bookId = nanoid(16);
+  const id = nanoid(16);
   const insertedAt = new Date().toISOString();
   const updateAt = insertedAt;
 
@@ -25,7 +25,7 @@ const addBookHandler = (request, h) => {
   }
 
   const newBook = {
-    bookId,
+    id,
     name,
     year,
     author,
@@ -41,7 +41,7 @@ const addBookHandler = (request, h) => {
 
   books.push(newBook);
 
-  const isSuccess = books.filter((book) => book.bookId === bookId).length > 0;
+  const isSuccess = books.filter((book) => book.id === id).length > 0;
   if (!name) {
     const response = h.response({
       status: 'fail',
@@ -62,7 +62,7 @@ const addBookHandler = (request, h) => {
       status: 'success',
       message: 'Buku berhasil ditambahkan',
       data: {
-        bookId,
+        bookId: id,
       },
     });
     response.code(201);
@@ -96,7 +96,7 @@ const getAllBooksHandler = (request, h) => {
     status: 'success',
     data: {
       books: bookQuery.map((book) => ({
-        bookId: book.bookId,
+        id: book.id,
         name: book.name,
         publisher: book.publisher,
       })),
@@ -107,9 +107,9 @@ const getAllBooksHandler = (request, h) => {
 };
 
 const getBookByIdHandler = (request, h) => {
-  const { bookId } = request.params;
+  const { id } = request.params;
 
-  const book = books.filter((b) => b.bookId === bookId)[0];
+  const book = books.filter((b) => b.id === id)[0];
 
   if (book !== undefined) {
     const response = h.response({
@@ -130,7 +130,7 @@ const getBookByIdHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { bookId } = request.params;
+  const { id } = request.params;
 
   const {
     name,
@@ -145,7 +145,7 @@ const editBookByIdHandler = (request, h) => {
 
   const updateAt = new Date().toISOString();
 
-  const index = books.findIndex((book) => book.bookId === bookId);
+  const index = books.findIndex((book) => book.id === id);
 
   if (!name) {
     const response = h.response({
@@ -165,7 +165,7 @@ const editBookByIdHandler = (request, h) => {
   } if (index !== -1) {
     books[index] = {
       ...books[index],
-      bookId,
+      id,
       name,
       year,
       author,
@@ -192,9 +192,9 @@ const editBookByIdHandler = (request, h) => {
 };
 
 const deleteBookByIdHandler = (request, h) => {
-  const { bookId } = request.params;
+  const { id } = request.params;
 
-  const index = books.findIndex((book) => book.bookId === bookId);
+  const index = books.findIndex((book) => book.id === id);
 
   if (index !== -1) {
     books.splice(index, 1);
