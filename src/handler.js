@@ -39,8 +39,6 @@ const addBookHandler = (request, h) => {
     updatedAt,
   };
 
-  books.push(newBook);
-  const isSuccess = books.filter((book) => book.id === id).length > 0;
   if (!name) {
     const response = h.response({
       status: 'fail',
@@ -56,7 +54,10 @@ const addBookHandler = (request, h) => {
     });
     response.code(400);
     return response;
-  } if (isSuccess) {
+  }
+  books.push(newBook);
+  const isSuccess = books.filter((book) => book.id === id).length > 0;
+  if (isSuccess) {
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil ditambahkan',
@@ -177,7 +178,7 @@ const editBookByIdHandler = (request, h) => {
     };
     const response = h.response({
       status: 'success',
-      message: 'Buku berhasil diperbaharui',
+      message: 'Buku berhasil diperbarui',
     });
     response.code(200);
     return response;
