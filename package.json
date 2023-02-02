@@ -1,5 +1,5 @@
 {
-  "name": "hapi-web-server-dicoding",
+  "name": "bookshelf-api-dicoding",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
